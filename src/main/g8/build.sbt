@@ -22,6 +22,18 @@ libraryDependencies += "com.lihaoyi" %% "utest" % "0.6.0" % "test"
 testFrameworks := Seq(new TestFramework("utest.runner.Framework"))
 
 // ----------------------------------------------------------------------------
+// scala compiler options
+// ----------------------------------------------------------------------------
+
+scalacOptions in ThisBuild ++= Seq(
+  "-deprecation",
+  "-encoding",
+  "UTF-8",
+  "-feature",
+  "-unchecked"
+)
+
+// ----------------------------------------------------------------------------
 // build info
 // ----------------------------------------------------------------------------
 
@@ -30,7 +42,7 @@ buildInfoKeys := Seq[BuildInfoKey](name, version)
 buildInfoPackage := "$name$"
 
 // ----------------------------------------------------------------------------
-// scalafmt integration
+// formatting
 // ----------------------------------------------------------------------------
 
 scalafmtVersion := "1.3.0"
@@ -38,7 +50,16 @@ scalafmtVersion := "1.3.0"
 scalafmtOnCompile := true
 
 // ----------------------------------------------------------------------------
-// scalastyle integration
+// linting
 // ----------------------------------------------------------------------------
 
 scalastyleConfig := file(".scalastyle-config.xml")
+
+wartremoverErrors in (Compile, compile) ++= Seq(
+  Wart.ArrayEquals,
+  Wart.FinalCaseClass,
+  Wart.OptionPartial,
+  Wart.TraversableOps,
+  Wart.TryPartial
+)
+
